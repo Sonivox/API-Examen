@@ -1,5 +1,13 @@
 <template>
-    $END$
+    <div>
+
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <h1>Proceso</h1>
+            <div class="col-sm-1"></div>
+        </div>
+
+    </div>
 </template>
 
 <script>
@@ -8,6 +16,6 @@
     }
 </script>
 
-<style scoped>
+<style>
 
 </style>
