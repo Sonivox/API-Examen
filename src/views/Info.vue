@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div class="row">
+        <br>
+        <div class="row col">
             <div class="col-sm-1"></div>
-            <h1>Ejemplo de como es el metodo</h1>
+            <h2>Ejemplo del metodo</h2>
             <div class="col-sm-1"></div>
         </div>
     </div>
