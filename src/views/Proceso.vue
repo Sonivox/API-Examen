@@ -392,8 +392,7 @@
 
             <br>
             <div class="text-center">
-                <input type="button" value="Volver a calcular puntos de casos de uso" class="btn btn-block btn-info"
-                       to="/proceso"/>
+                <b-button size="lg" block variant="info" @click="refrescar">Volver a calcular puntos de casos de uso</b-button>
             </div>
             <br>
 
@@ -474,7 +473,7 @@
         },
         methods:{
             refrescar(){
-                location.reload()
+                window.location.reload(true);
             },
             mostrar(paso){
                 switch (paso) {
