@@ -2,7 +2,7 @@
     <div>
         <br>
         <!-- Paso Numero 1 UAW-->
-        <div v-if="paso1 == true">
+        <div>
             <div class="row col">
                 <div class="col-sm-1"></div>
                 <h1>Calcular puntos de casos de uso</h1>
@@ -19,6 +19,10 @@
 
                     <b-button @click="listarAct" :disabled="factorActor.length === 0"
                               variant="primary">Agregar actor</b-button>
+                    <b-button @click="infoMensaje('Ayuda del paso 1','En este paso \n' +
+                      'tienes que colocar el peso de los actores que son simples (peso 1), medianos (peso 2) o complejos (peso 3)' +
+                      'para eso puedes ver la documentacion y ver la tabla de los pesos de los actores')"
+                              variant="warning">Ayuda</b-button>
                 </div> <br>
 
                 <div>
@@ -45,7 +49,7 @@
             </div>
         </div>
         <!-- Paso Numero 2 UUCW-->
-        <div class="container" v-if="paso2 == true">
+        <div class="container">
             <div>
                 <h3>2.- Cálculo del factor de los casos de uso sin ajustar (UUCW) </h3>
 
@@ -57,6 +61,10 @@
                            v-model="casos" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control">
                     <b-button @click="listarCaso" :disabled="casos.length === 0"
                               variant="primary">Agregar</b-button>
+                    <b-button @click="infoMensaje('Ayuda del paso 2','En este paso tienes que ' +
+                     'colocar cuantras transaciones tiene tu caso de uso y el programa automaticamente lo divide en simple (factor 5)' +
+                      'medio (factor 10) y complejo (factor 15)')"
+                              variant="warning">Ayuda</b-button>
                 </div> <br>
 
                 <div>
@@ -79,16 +87,17 @@
                         Factor de los casos de uso sin ajustar UUCW = {{UUCW}}
                     </div>
                     <b-btn variant="danger" @click="eliminarCU">Eliminar caso de uso</b-btn>
-                    <b-btn variant="success" :disabled="factores.length === 0 || casosList.length === 0"
-                           @click="mostrar(3)">Siguientes pasos</b-btn>
                 </div>
             </div>
         </div>
         <!-- Paso Numero 3 TCF-->
-        <div class="container" v-if="paso3 == true">
+        <div class="container">
             <div>
                 <h3>3.- Cálculo de los factores de complejidad técnica (TCF) </h3>
-
+                <b-button @click="infoMensaje('Ayuda del paso 3','En este paso tienes que colocar lo siguiente en base ' +
+                     ' a al desarrollo del proyecto junto con la experiencia de los desarrolladores y colocar los factores que competen en base ' +
+                      'a las necesidades del proyecto y que el cliente requiera 0 a 2 (irrelevante), 3 y 4 (media) y 5 (esencial)')"
+                          block variant="warning">Ayuda del paso 3</b-button>
                 <table class="table">
                     <thead class="thead-dark">
                     <tr>
@@ -208,23 +217,17 @@
                 <div class="alert alert-success" role="alert">
                     Factores de complejidad técnica TCF = {{TCF}}
                 </div>
-                <b-btn variant="success" :disabled="botonpaso4"
-                       @click="mostrar(4)">Pasar al paso 4</b-btn>
             </div>
         </div>
         <!-- Paso Numero 4 EF-->
-        <div class="container" v-if="paso4 == true">
+        <div class="container">
             <div>
                 <h3>4.- Cálculo de los factores de entorno (EF)</h3>
-                <p>{{E1}}</p>
-                <p>{{E2}}</p>
-                <p>{{E3}}</p>
-                <p>{{E4}}</p>
-                <p>{{E5}}</p>
-                <p>{{E6}}</p>
-                <p>{{E7}}</p>
-                <p>{{E8}}</p>
                 <div>
+                    <b-button @click="infoMensaje('Ayuda del paso 4','En este paso compete a al  ' +
+                     ' equipo de desarrollo, sobre sus conocimientos y que tanta experiencia tengan como desarrolladores y colocar los factores que competen en base a ' +
+                      '0 a 2 (irrelevante), 3 y 4 (media) y 5 (esencial)')"
+                              block variant="warning">Ayuda Paso 4</b-button>
                     <table class="table">
                         <thead class="thead-dark">
                         <tr>
@@ -304,7 +307,10 @@
                     <div class="alert alert-success" role="alert">
                         Factores de complejidad del entorno EF = {{EF}}
                     </div>
-                    <b-btn variant="success" @click="mostrar(5)">Pasar al paso 5</b-btn>
+                    <br>
+                    <b-btn block variant="success" :disabled="EF === '' || TCF === '' || UAW === '' || UUCW === ''"
+                           @click="mostrar(5)">Calcular los demas pasos</b-btn>
+                    <br><br>
                 </div>
 
             </div>
@@ -312,16 +318,28 @@
         <!-- Paso Numero 5 UUCP y Paso Numero 6 UCP-->
         <div class="container" v-if="tresPasos == true">
             <h3>5.- Cálculo del nº de puntos de casos de uso sin ajustar (UUCP)</h3>
+            <b-button @click="infoMensaje('Informacion del paso 5','En este paso ya se calcula los ' +
+                     'puntos de casos de uso sin ajustar UUCP en base a los datos ya recolectados del paso 1 y 2' +
+                      ' la formula es UUCP = UAW + UUCW')"
+                      block variant="warning">Informacion paso 5</b-button>
             <div class="alert alert-success" role="alert">
                 Puntos de caso de uso sin ajustar UUCP = UAW + UUCW <br> <br>
                 UUCP = {{UAW}} + {{UUCW}} = {{UUCP = (UAW + UUCW)}}
             </div>
             <h3>6.- Cálculo del nº de puntos de casos de uso ajustados (UCP).</h3>
+            <b-button @click="infoMensaje('Informacion del paso 6','En este paso ya se realiza el ajuste de los puntos de casos de uso ' +
+                     'cuyos datos obtivimos del paso 3, 4 y 5' +
+                      ' La formula es UCP = UUCP x TCF x EF')"
+                      block variant="warning">Informacion paso 6</b-button>
             <div class="alert alert-success" role="alert">
-                Realizando el ajuste de los puntos de casos de uso UCP = UUCP x TCF * EF<br> <br>
+                Realizando el ajuste de los puntos de casos de uso UCP = UUCP x TCF x EF<br> <br>
                 UCP = {{UUCP}} x {{TCF}} x {{EF}} = {{UCP = (UUCP * TCF * EF)}}
             </div>
             <h3>Estimacion del esfuerzo en Horas-Hombre (E).</h3>
+            <b-button @click="infoMensaje('Informacion','Aqui se realiza la estimacion en cuanto a la programacion ' +
+                     'del sistema tomando en cuanto los factores de entorno del equipo de desarrollo del paso 4, el programa detecta automaticamente ' +
+                      'los puntos y asigna las horas correspondientes')"
+                      block variant="warning">Informacion del esfuerzo</b-button>
             <div class="alert alert-success" role="alert">
                 Factores ambientales de E1 a E6 con puntuación menor a 3  = {{menores}}<br>
                 Factores ambientales de E7 a E8 con puntuación mayor a 3 = {{mayores}}<br>
@@ -332,6 +350,9 @@
             </div>
             <h3>Calculo del esfuerzo total en Horas-Hombre (E).</h3>
             <div>
+                <b-button @click="infoMensaje('Informacion','Aqui ya se realiza el esfuero total en cuanto a todo ' +
+                     'lo comprendido con el desarrollo del sistema y divide automaticamente el esfuerzo en sus respectivos porcentajes')"
+                          block variant="warning">Informacion del esfuerzo total</b-button>
                 <table class="table table-sm">
                     <thead class="thead-dark">
                     <tr>
@@ -363,11 +384,26 @@
                     <tr>
                         <th scope="row" class="table-danger">Total</th>
                         <td  class="table-danger">{{esfuerzoTotal = (esfuerzo/4) + (esfuerzo/2) +
-                            (esfuerzo) + (esfuerzo/3) + (esfuerzo/5)}}</td>
+                            (esfuerzo) + (esfuerzo/3) + (esfuerzo/5)}} Horas-Hombre</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
+
+            <br>
+            <div class="text-center">
+                <input type="button" value="Volver a calcular puntos de casos de uso" class="btn btn-block btn-info"
+                       @click="refrescar"/>
+            </div>
+            <br>
+
+            <div class="text-center">
+                <form>
+                    <input type="button" value="Imprimir reporte del caso" class="btn btn-dark btn-block"
+                           onclick="window.print()" />
+                </form>
+            </div>
+            <br><br>
 
         </div>
     </div>
@@ -432,23 +468,14 @@
                 mayores: 0,
 
                 //mostar pasos
-                paso1: true,
-                paso2: true,
-                paso3: true,
-                paso4: true,
-                tresPasos: true,
+                tresPasos: false,
 
-                //mostrar botones
-                botonpaso4: true,
             }
         },
-        computed:{
-
-        },
-        mounted(){
-
-        },
         methods:{
+            refrescar(){
+                location.reload()
+            },
             mostrar(paso){
                 switch (paso) {
                     case 3:
@@ -541,13 +568,10 @@
                         //calculando TCF
                         this.TCF = 0.6 + 0.01 * ( (this.T1* 2) + (this.T2* 1) + (this.T3* 1) + (this.T4* 1) + (this.T5* 1) +
                         (this.T6* 0.5)+ (this.T7* 0.5) + (this.T8* 2) + (this.T9* 1) + (this.T10* 1) + (this.T11* 1) + (this.T12* 1)+ (this.T13* 1));
-
-                        this.botonpaso4 = !this.botonpaso4;
                     }
                 }
             },
             calcularEF(){
-                this.TCF = 0;
                 this.UCP = 0;
                 this.EF = 0;
                 if (this.E1 == '' || this.E2 == '' || this.E3 == '' || this.E4 == '' || this.E5 == ''|| this.E6 == '' ||
@@ -558,7 +582,7 @@
                         this.E7 > 5 || this.E8 > 5 ){
                         this.alertaMensaje('No ingrese numeros mayores a 5')
                     } else {
-                        //calculando TCF
+                        //calculando EF
                         this.EF = 1.4 - 0.03 * ( (this.E1 * 1.5) + (this.E2 * 0.5) + (this.E3 * 1) + (this.E4 * 0.5) +
                             (this.E5 * 1 ) + (this.E6 * 2) + (this.E7 * -1) + (this.E8 * -1));
                     }
@@ -616,11 +640,11 @@
                     showConfirmButton: false
                 });
             },
-            infoMensaje(men){
+            infoMensaje(titulo, mensaje){
                 this.$swal.fire({
                     icon: 'info',
-                    title: 'Informacion...',
-                    text: men,
+                    title: titulo,
+                    text: mensaje,
                 });
             },
         },
