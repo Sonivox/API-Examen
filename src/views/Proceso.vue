@@ -393,7 +393,7 @@
             <br>
             <div class="text-center">
                 <input type="button" value="Volver a calcular puntos de casos de uso" class="btn btn-block btn-info"
-                       @click="refrescar"/>
+                       to="/proceso"/>
             </div>
             <br>
 
